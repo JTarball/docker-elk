@@ -2,20 +2,19 @@
 
 [![nodesource/node](http://dockeri.co/image/jtarball/dockerelk)](https://hub.docker.com/r/jtarball/dockerelk/)
 
-[![Circle CI](https://circleci.com/gh/JTarball/dockerelk.svg?style=svg)](https://circleci.com/gh/JTarball/docker-elk)
+[![Circle CI](https://circleci.com/gh/JTarball/docker-elk.svg?style=svg)](https://circleci.com/gh/JTarball/docker-elk)
 
 [![](https://images.microbadger.com/badges/image/jtarball/dockerelk.svg)](https://microbadger.com/images/jtarball/dockerelk "Get your own image badge on microbadger.com")
 
-[![](https://images.microbadger.com/badges/image/jtarball/dockerelk.svg)](https://microbadger.com/images/jtarball/dockerelk "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/jtarball/dockerelk.svg)](https://microbadger.com/images/jtarball/dockerelk "Get your own version badge on microbadger.com")
 
 
+Run the latest version of the ELK (Elasticseach, Logstash, Kibana) stack with Docker and Docker-compose. 
+Monitoring of the stack is provided by Datadog.
 
-
-[![Join the chat at https://gitter.im/deviantony/docker-elk](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deviantony/docker-elk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-Run the latest version of the ELK (Elasticseach, Logstash, Kibana) stack with Docker and Docker-compose.
 
 It will give you the ability to analyze any data set by using the searching/aggregation capabilities of Elasticseach and the visualization power of Kibana.
+
 
 Based on the official images:
 
@@ -34,6 +33,7 @@ This project is based of the awesome project: deviantony/docker-elk
 1. Install [Docker](http://docker.io).
 2. Install [Docker-compose](http://docs.docker.com/compose/install/) **version >= 1.6**.
 3. Clone this repository
+4. Set up [datadog](https://www.datadoghq.com/)
 
 ## Increase max_map_count on your host (Linux)
 
@@ -54,6 +54,8 @@ For example on Redhat and CentOS, the following will apply the proper context:
 ```
 
 # Usage
+
+Set `DD_API_KEY` in your environment variable for Datadog monitoring
 
 Start the ELK stack using *docker-compose*:
 

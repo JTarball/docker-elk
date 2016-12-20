@@ -24,7 +24,7 @@ else
 	CONTAINERS=$(docker-compose ps -q)
 fi
 
-exit 2
+
 for CONTAINER in $CONTAINERS; do
 	HEALTH=$(docker inspect --format='{{.State.Health.Status}}' $CONTAINER)
 	RUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null)

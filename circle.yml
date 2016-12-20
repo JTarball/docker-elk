@@ -6,8 +6,6 @@
 # Python specific configuration, see: https://circleci.com/docs/language-python
 #
 # 
-# Support for custom / official tests
-#
 machine:
     environment:
         DOCKER_USER: "jtarball"
@@ -25,6 +23,7 @@ dependencies:
 test:
     override:
         - docker-compose up -d
+        - sleep 60
         # Check all the services in docker-compose are ok
         - ./check_docker_container.sh
 
@@ -32,5 +31,5 @@ deployment:
     production:
         branch: master
         commands:
-            # We have set PROJECT_VERSION to latest so will tag latest and push to dockerhub
+            # We have set PROJECT_VERSION to latest so will tag :latest and push to dockerhub
             - ./build_tag_push.py --dockerhub_release
