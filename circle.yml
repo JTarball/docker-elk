@@ -1,0 +1,32 @@
+#
+# Circle CI
+# 
+# For running docker images on circle ci, see: https://circleci.com/docs/docker
+# For circle.yml explanation, see: https://circleci.com/docs/manually
+# Python specific configuration, see: https://circleci.com/docs/language-python
+#
+# 
+# Support for custom / official tests
+#
+machine:
+    environment:
+      DOCKER_USER: "jtarball"
+      DOCKER_IMAGE: "$DOCKER_USER/dockerelk:latest"
+      PROJECT_VERSION: "latest"
+    services:
+        - docker
+    pre:
+      - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+
+test:
+  override:
+    docker-compose up -d
+    # Check all the services in docker-compose are ok
+    ./check_docker_container.sh
+
+deployment:
+  production:
+    branch: master
+    commands:
+        # We have set PROJECT_VERSION to latest so will tag latest and push to dockerhub
+        - ./build_tag_push.py --dockerhub_release

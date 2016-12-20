@@ -3,10 +3,10 @@ networks:
     driver: bridge
 services:
   datadog:
-    build: datadog/
     environment:
     - API_KEY=$DD_API_KEY
     - DD_HOSTNAME=elk
+    image: jtarball/dockerelk:0.0.1
     networks:
     - docker_elk
     restart: unless-stopped
@@ -15,9 +15,9 @@ services:
     - /proc/:/host/proc/:ro
     - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
   elasticsearch:
-    build: elasticsearch/
     environment:
       ES_JAVA_OPTS: -Xms1g -Xmx1g
+    image: jtarball/dockerelk:0.0.1
     networks:
     - docker_elk
     ports:
@@ -25,9 +25,9 @@ services:
     - 9300:9300
     restart: unless-stopped
   kibana:
-    build: kibana/
     depends_on:
     - elasticsearch
+    image: jtarball/dockerelk:0.0.1
     networks:
     - docker_elk
     ports:
@@ -36,10 +36,10 @@ services:
     volumes:
     - ./kibana/config/:/usr/share/kibana/config/
   logstash:
-    build: logstash/
     command: -f /etc/logstash/conf.d/logstash.conf
     depends_on:
     - elasticsearch
+    image: jtarball/dockerelk:0.0.1
     networks:
     - docker_elk
     ports:

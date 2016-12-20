@@ -1,4 +1,15 @@
-# Docker ELK stack
+# Docker ELK stack (with datadog support)
+
+[![nodesource/node](http://dockeri.co/image/jtarball/dockerelk)](https://hub.docker.com/r/jtarball/dockerelk/)
+
+[![Circle CI](https://circleci.com/gh/JTarball/dockerelk.svg?style=svg)](https://circleci.com/gh/JTarball/docker-elk)
+
+[![](https://images.microbadger.com/badges/image/jtarball/dockerelk.svg)](https://microbadger.com/images/jtarball/dockerelk "Get your own image badge on microbadger.com")
+
+[![](https://images.microbadger.com/badges/image/jtarball/dockerelk.svg)](https://microbadger.com/images/jtarball/dockerelk "Get your own image badge on microbadger.com")
+
+
+
 
 [![Join the chat at https://gitter.im/deviantony/docker-elk](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deviantony/docker-elk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -11,11 +22,10 @@ Based on the official images:
 * [elasticsearch](https://registry.hub.docker.com/_/elasticsearch/)
 * [logstash](https://registry.hub.docker.com/_/logstash/)
 * [kibana](https://registry.hub.docker.com/_/kibana/)
+* [datadog](https://hub.docker.com/r/datadog/docker-dd-agent/)
 
-**Note**: Other branches in this project are available:
-
-* ELK 5 with X-Pack support: https://github.com/deviantony/docker-elk/tree/x-pack
-* ELK 5 in Vagrant: https://github.com/deviantony/docker-elk/tree/vagrant
+# Credit
+This project is based of the awesome project: deviantony/docker-elk
 
 # Requirements
 
