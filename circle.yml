@@ -24,13 +24,13 @@ dependencies:
 
 test:
     override:
-        - cd docker-elk && docker-compose up -d
+        - docker-compose up -d
         # Check all the services in docker-compose are ok
-        - cd docker-elk && ./check_docker_container.sh
+        - ./check_docker_container.sh
 
 deployment:
     production:
         branch: master
         commands:
             # We have set PROJECT_VERSION to latest so will tag latest and push to dockerhub
-            - cd docker-elk && ./build_tag_push.py --dockerhub_release
+            - ./build_tag_push.py --dockerhub_release
