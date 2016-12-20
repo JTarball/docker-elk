@@ -24,9 +24,9 @@ dependencies:
 
 test:
     override:
-        cd docker-elk && docker-compose up -d
+        - cd docker-elk && docker-compose up -d
         # Check all the services in docker-compose are ok
-        cd docker-elk && ./check_docker_container.sh
+        - cd docker-elk && ./check_docker_container.sh
 
 deployment:
     production:
