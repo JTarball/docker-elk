@@ -32,4 +32,4 @@ deployment:
         branch: master
         commands:
             # We have set PROJECT_VERSION to latest so will tag :latest and push to dockerhub
-            - ./build_tag_push.py --dockerhub_release
+            - ./build-tag-push.py --dockerhub_release
