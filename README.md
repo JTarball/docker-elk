@@ -57,6 +57,10 @@ For example on Redhat and CentOS, the following will apply the proper context:
 
 Set `DD_API_KEY` in your environment variable for Datadog monitoring
 
+```bash
+$ export DD_API_KEY=bd3bf2ca6f5c84bc0c21b7d9593c6154
+```
+
 Start the ELK stack using *docker-compose*:
 
 ```bash
