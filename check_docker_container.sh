@@ -24,6 +24,10 @@ else
 	CONTAINERS=$(docker-compose ps -q)
 fi
 
+if [ "$CONTAINERS" == "" ]; then
+  echo "CRITICAL - No docker containers found."
+  exit 2
+fi
 
 for CONTAINER in $CONTAINERS; do
 	HEALTH=$(docker inspect --format='{{.State.Health.Status}}' $CONTAINER)
