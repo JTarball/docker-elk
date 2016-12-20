@@ -14,30 +14,49 @@ import argparse
 import subprocess
 import yaml
 
-from subprocess import check_output as check_cmd
 from argparse import RawTextHelpFormatter
+from functools import partial
 
 
-c_reset = check_cmd("tput sgr0".split())
-c_red = check_cmd("tput setaf 1".split())
-c_yellow = check_cmd("tput setaf 3".split())
-c_green = check_cmd("tput setaf 2".split())
+COLORS = ('black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan',
+          'white')
 
+def color(s, fg=None, bg=None, style=None):
+    sgr = []
 
-def colourise(msg='', colour=c_green):
-    return colour + msg + c_reset
+    if fg:
+        if fg in COLORS:
+            sgr.append(str(30 + COLORS.index(fg)))
+        elif isinstance(fg, int) and 0 <= fg <= 255:
+            sgr.append('38;5;%d' % int(fg))
+        else:
+            raise Exception('Invalid color "%s"' % fg)
 
+    if bg:
+        if bg in COLORS:
+            sgr.append(str(40 + COLORS.index(bg)))
+        elif isinstance(bg, int) and 0 <= bg <= 255:
+            sgr.append('48;5;%d' % bg)
+        else:
+            raise Exception('Invalid color "%s"' % bg)
 
-def red(msg):
-    return colourise(msg, c_red)
+    if style:
+        for st in style.split('+'):
+            if st in STYLES:
+                sgr.append(str(1 + STYLES.index(st)))
+            else:
+                raise Exception('Invalid style "%s"' % st)
 
+    if sgr:
+        prefix = '\x1b[' + ';'.join(sgr) + 'm'
+        suffix = '\x1b[0m'
+        return prefix + s + suffix
+    else:
+        return s
 
-def yellow(msg):
-    return colourise(msg, c_yellow)
-
-
-def green(msg):
-    return colourise(msg, c_green)
+red = partial(color, fg='red')
+green = partial(color, fg='green')
+yellow = partial(color, fg='yellow')
 
 # Basic script md5sum check
 # =========================
@@ -164,6 +183,10 @@ if args.push_to_dockerhub:
         print("Done.")
 
 if args.push_to_github:
+    # git describe --tags $(git rev-list --tags --max-count=1)
+    # git log v0.0.1...HEAD
+    # git push origin v0.0.1
+    # subprocess.Popen(["docker", "push", hub_image])
     pass
 
 
