@@ -19,7 +19,7 @@ machine:
 dependencies:
     pre:
         - sudo pip install docker-compose
-        - sudo pip install pyyaml
+        - pip install pyyaml
 
 test:
     override:
