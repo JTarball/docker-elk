@@ -21,6 +21,7 @@ from functools import partial
 COLORS = ('black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan',
           'white')
 
+
 def color(s, fg=None, bg=None, style=None):
     sgr = []
 
@@ -57,30 +58,6 @@ def color(s, fg=None, bg=None, style=None):
 red = partial(color, fg='red')
 green = partial(color, fg='green')
 yellow = partial(color, fg='yellow')
-
-# Basic script md5sum check
-# =========================
-# I use this script in many places / overkill to put into a generic package.
-# Instead we use a basic md5sum to know what version of the script we are using.
-# Therefore when you update this script add an entry into the dictionary below.
-# NOTE: Our versioning is based of semantic versioning v0.0.1a / b / rc
-# Add a 'a' or 'b' or - if you are currently developing
-# http://www.jvandemo.com/a-simple-guide-to-semantic-versioning/
-
-SCRIPT_VERSION = '0.0.1a'
-
-SCRIPT_VERSIONING = {
-    '0.0.1': '6ec1f96085e44238c6de666824e280e2'
-}
-
-if SCRIPT_VERSION.find('b') == -1 and SCRIPT_VERSION.find('a') == -1 \
-        and SCRIPT_VERSIONING[SCRIPT_VERSION] != subprocess.check_call(["md5", __file__]):
-    print red("ERROR: This script version is not %s" % SCRIPT_VERSION)
-    print yellow(
-        "To start developing the next version of this script "
-        "add 'a' or 'b' to SCRIPT_VERSION e.g. %sa" % SCRIPT_VERSION
-    )
-    exit(1)
 
 # ==============================================================================
 
@@ -183,12 +160,43 @@ if args.push_to_dockerhub:
         print("Done.")
 
 if args.push_to_github:
-    # git describe --tags $(git rev-list --tags --max-count=1)
-    # git log v0.0.1...HEAD
-    # git push origin v0.0.1
-    # subprocess.Popen(["docker", "push", hub_image])
-    pass
+    process = subprocess.Popen(
+        ["git", "rev-list", "--tags", "--max-count=1"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    git_rev = str(process.communicate()[0]).strip()
 
+    process = subprocess.Popen(
+        ["git", "describe", "--tags", git_rev],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    git_current_tag = str(process.communicate()[0]).strip()
+
+    process = subprocess.Popen(
+        ["git", "log", git_current_tag+'...HEAD'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    commits_since_tag = str(process.communicate()[0]).strip()
+
+    process = subprocess.Popen(
+        ["git", "tag", "-a", version, "-m", commits_since_tag],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+
+    github_version = "v" + version
+    print green("Pushing %s to github" % github_version)
+    process = subprocess.Popen(
+        ["git", "push", "origin", ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    process.wait()
+    (output, error) = process.communicate()
+    print output, error
 
 # Write the new docker-compose.yml file.
 with open(output_file, "w") as f:
