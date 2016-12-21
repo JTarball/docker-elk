@@ -28,7 +28,7 @@ test:
         - docker-compose up -d
         - sleep 60
         # Check all the services in docker-compose are ok
-        - ./check-docker-container.sh
+        - check-docker-container.sh
 
 deployment:
     production:
@@ -36,4 +36,4 @@ deployment:
         commands:
             - docker login -e "$DOCKERHUB_EMAIL" -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASS"
             # We have set PROJECT_VERSION to latest so will tag :latest and push to dockerhub
-            - ./build-tag-push.py --dockerhub_release
+            - build-tag-push.py --dockerhub_release
