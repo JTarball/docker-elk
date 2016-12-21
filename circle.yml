@@ -28,7 +28,7 @@ test:
         - docker-compose up -d
         - sleep 60
         # Check all the services in docker-compose are ok
-        - ./check_docker_container.sh
+        - ./check-docker-container.sh
 
 deployment:
     production:
